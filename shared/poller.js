@@ -90,6 +90,13 @@ Poller.prototype.poll = function poll(callback) {
   }, function(err, results) {
     // results is an array of boolean
     self.logger.debug("Done processing pages: %j", results, {});
+
+    var result = {};
+    result.status = (_.reduce(results, function(acc, result) {
+      return acc || result;
+    }, false) ? "available" : "unavailable");
+
+    callback(err, result);
   });
 };
 
