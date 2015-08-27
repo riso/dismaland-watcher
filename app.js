@@ -20,7 +20,7 @@ poller.startPolling(function(err, result) {
 
     sendmail({
       from: "dimwatch@slytherin-basement.com",
-      to: "valerio.ponte@gmail.com",
+      to: process.env["MAIL_RECIPIENT"],
       subject: "Dismaland availability changed!",
       content: 'Dismaland is now ' + result.status,
     }, function(err, reply) {
