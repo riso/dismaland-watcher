@@ -8,6 +8,25 @@ var Poller = require("./shared/poller");
 var PushBullet = require('pushbullet');
 var pusher = new PushBullet(process.env["PUSHBULLET_KEY"]);
 
+var express = require('express');
+
+// cfenv provides access to your Cloud Foundry environment
+// for more info, see: https://www.npmjs.com/package/cfenv
+var cfenv = require('cfenv');
+
+// create a new express server
+var app = express();
+
+// get the app environment from Cloud Foundry
+var appEnv = cfenv.getAppEnv();
+
+// start server on the specified port and binding host
+app.listen(appEnv.port, function() {
+
+	// print a message when the server starts listening
+  logger.info("Server starting on " + appEnv.url);
+});
+
 var poller = new Poller();
 var currentResult = {};
 poller.startPolling(function(err, result) {
